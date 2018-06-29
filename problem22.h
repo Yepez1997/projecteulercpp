@@ -5,6 +5,9 @@
 #include <fstream>
 #include <map>
 #include <iterator> 
+#include <exception>
+#include <cstddef>
+#include <stdexcept>
 
 #define COMMA ','
 #define QUOTE '"'
@@ -18,49 +21,74 @@ std::vector<std::string> names_ordered;
 
 void print_elements(std::vector<std::string> nums);
 void init_score_map(); 
-void read_file(std::string file); 
-std::vector<std::string> remove_quotes(std::vector<std::string> vector);
+void write_file_to_output1(std::string infile, std::string outfile); 
+void write_file_to_output2(std::string outfile); 
+
 std::string split_words(std::string word); 
+std::vector<std::string> sort_names(std::vector<std::string> &names); 
 int words_total(std::string word); 
 
 
-/* read_file: reads a file passed in and uses a quotes delimeter 
+/* write_file_to_output1: reads a file passed in and uses a quotes delimeter 
 */
-void read_file(std::string file) {
+void write_file_to_output1(std::string infile, std::string outfile) {
     std::string line;
-    ifstream names_file(file);
-
+    fstream file; 
+    ifstream names_file(infile);
+    ofstream out_file(outfile);
+    
     if (names_file.is_open()) {
         while (getline(names_file, line,'"')) { 
-      
-            cout << line << endl;
-           
+            // here we want to write to file 
+            out_file << line;          
         }
-        //std::vector<std::string> newlist = remove_quotes(names_unordered);
+        out_file.close();
         names_file.close();  
-
     }
     else {
         cout << "Unable to open file" << endl; 
     }
+}
 
+
+/* write_file_to_output2: reads the output file without quotes, remove the commas, and adds each name
+* to a vector 
+*/
+void write_file_to_output2(std::string outfile) {
+    std::string line;
+    ifstream names_file(outfile); 
+
+    if (names_file.is_open()) {
+        while(getline(names_file, line, ',')) {
+
+            names_unordered.push_back(line);
+        }
+        names_file.close();
+    }
+    else {
+        cout << "Unable to open file" << endl;
+    }
+    
+}
+
+/* sort_names:  sorts the names in the vector of names 
+ */
+std::vector<std::string> sort_names(std::vector<std::string> &names) { 
+    std::vector<std::string> name = std::sort(names.begin(), names.end()); 
+    return name;
 }
 
 /* print_elements:  prints all the elements in a vector
 */
-void print_elements(std::vector<int> nums) {
-    for (std::vector<int>::iterator it = nums.begin() ; it != nums.end(); ++it) {
+void print_elements(std::vector<std::string> nums) {
+    for (std::vector<std::string>::iterator it = nums.begin() ; it != nums.end(); ++it) {
          std::cout << ' ' << *it;
     }
 }
 
-/* remove_quotes: removes quotes after parsing, reading p22_file.txt  - without the commas 
-*/ 
-std::vector<std::string> remove_quotes(std::vector<std::string> vector) {
-    return vector; 
-}
 
-
+/* init_score_map: sets up map with values for each char
+*/
 void init_score_map() {
     std::map<char,int> alpha_score;
     alpha_score['a'] = 1; 
@@ -90,3 +118,5 @@ void init_score_map() {
     alpha_score['y'] = 25;
     alpha_score['z'] = 26; 
 }
+
+
