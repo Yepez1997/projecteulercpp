@@ -8,25 +8,29 @@
 #include <exception>
 #include <cstddef>
 #include <stdexcept>
+#include <sstream>
 
 #define COMMA ','
 #define QUOTE '"'
 
 using namespace std; 
 
+//data structures 
 std::map<char,int> alpha_score;
 std::map<std::string, int> final_score;
 std::vector<std::string> names_unordered;
 std::vector<std::string> names_ordered;
+std::vector<int> names_sum; 
 
+//funtions
 void print_elements(std::vector<std::string> nums);
 void init_score_map(); 
 void write_file_to_output1(std::string infile, std::string outfile); 
 void write_file_to_output2(std::string outfile); 
-
-std::string split_words(std::string word); 
-std::vector<std::string> sort_names(std::vector<std::string> &names); 
+void name_sums(std::vector<std::string> &sorted_names); 
+void sort_names(std::vector<std::string> &names); 
 int words_total(std::string word); 
+
 
 
 /* write_file_to_output1: reads a file passed in and uses a quotes delimeter 
@@ -68,14 +72,13 @@ void write_file_to_output2(std::string outfile) {
     else {
         cout << "Unable to open file" << endl;
     }
-    
+
 }
 
 /* sort_names:  sorts the names in the vector of names 
  */
-std::vector<std::string> sort_names(std::vector<std::string> &names) { 
-   // std::vector<std::string> name = std::sort(names.begin(), names.end()); 
-    return names;
+void sort_names(std::vector<std::string> &names) { 
+    std::sort(names.begin(), names.end()); 
 }
 
 /* print_elements:  prints all the elements in a vector
@@ -86,6 +89,28 @@ void print_elements(std::vector<std::string> nums) {
     }
 }
 
+// steps 
+// 1. iterate through each individual name 
+// 2. split name and match with map 
+// should use a string steam ?  and match each string to the map ? 
+// 3. once reach the end of a name, add sum to 
+void name_sums(std::vector<std::string> &sorted_names) {
+    for (std::vector<std::string>::iterator it = sorted_names.begin() ; it != sorted_names.end(); ++it) {
+        int total_sum = 0; 
+        std::string input =  *it; 
+        std::istringstream ss(input); 
+        // we want to iterate the stream and map to see if there is a match 
+        while (!ss.eof()) { 
+            for (std::map<char,int>::iterator it = alpha_score.begin(); it != alpha_score.end(); ++it) {
+                if(it->first == ss.peek()) {
+                    total_sum += it->second;
+                }
+            }
+        }
+        // should print out the total sum for each individual name
+        printf("%d",total_sum);     
+    }
+}
 
 /* init_score_map: sets up map with values for each char
 */
