@@ -11,8 +11,9 @@ int main() {
     write_file_to_output2("p22_outfile.txt"); 
 
 
-    std::vector<std::string> sorted_names = sort_names(names_unordered);
+    //std::vector<std::string> sorted_names = sort_names(names_unordered);
 
+    print_elements(names_unordered);
     init_score_map();
 
     return 0;

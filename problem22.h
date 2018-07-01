@@ -74,8 +74,8 @@ void write_file_to_output2(std::string outfile) {
 /* sort_names:  sorts the names in the vector of names 
  */
 std::vector<std::string> sort_names(std::vector<std::string> &names) { 
-    std::vector<std::string> name = std::sort(names.begin(), names.end()); 
-    return name;
+   // std::vector<std::string> name = std::sort(names.begin(), names.end()); 
+    return names;
 }
 
 /* print_elements:  prints all the elements in a vector
