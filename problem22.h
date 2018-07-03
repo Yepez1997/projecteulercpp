@@ -30,6 +30,8 @@ void write_file_to_output2(std::string outfile);
 void name_sums(std::vector<std::string> &sorted_names); 
 void sort_names(std::vector<std::string> &names); 
 int words_total(std::string word); 
+void parse_name_char(std::vector<std::string> &name, std::map<char,int> &alpha_score);
+void print_map(std::map<char,int> alpha_score);
 
 
 
@@ -98,50 +100,56 @@ void name_sums(std::vector<std::string> &sorted_names) {
     for (std::vector<std::string>::iterator it = sorted_names.begin() ; it != sorted_names.end(); ++it) {
         int total_sum = 0; 
         std::string input =  *it; 
+        cout << *it << endl;
         std::istringstream ss(input); 
         // we want to iterate the stream and map to see if there is a match 
-        while (!ss.eof()) { 
-            for (std::map<char,int>::iterator it = alpha_score.begin(); it != alpha_score.end(); ++it) {
-                if(it->first == ss.peek()) {
+        
+        for (std::map<char,int>::iterator it = alpha_score.begin(); it != alpha_score.end(); ++it) {
+            if(it->first == ss.get()) {
+                total_sum += it->second;
+            }
+        }
+        printf("%d",total_sum);
+        
+        // should print out the total sum for each individual name
+  
+    }
+}
+
+/* Parses out one name to individual characters 
+*/
+void parse_name_char(std::vector<std::string> &name, std::map<char,int> &alpha_score) { 
+    for (std::vector<std::string>::iterator it = name.begin() ; it != name.end(); ++it) { 
+        cout << *it  << endl;
+        std::istringstream ss(*it);   
+        int total_sum = 0;  
+        while(ss) { 
+             for (std::map<char,int>::iterator it = alpha_score.begin(); it != alpha_score.end(); ++it) {
+                char peek = (char)ss.peek();
+                if(it->first == peek) {
+                    ss.get();
                     total_sum += it->second;
                 }
             }
         }
-        // should print out the total sum for each individual name
-        printf("%d",total_sum);     
+        std::cout << total_sum << endl; 
     }
 }
 
-/* init_score_map: sets up map with values for each char
-*/
-void init_score_map() {
-    std::map<char,int> alpha_score;
-    alpha_score['a'] = 1; 
-    alpha_score['b'] = 2;
-    alpha_score['c'] = 3; 
-    alpha_score['d'] = 4;
-    alpha_score['e'] = 5; 
-    alpha_score['f'] = 6;
-    alpha_score['g'] = 7; 
-    alpha_score['h'] = 8;
-    alpha_score['i'] = 9; 
-    alpha_score['j'] = 10;
-    alpha_score['k'] = 11; 
-    alpha_score['l'] = 12;
-    alpha_score['m'] = 13; 
-    alpha_score['n'] = 14;
-    alpha_score['o'] = 15; 
-    alpha_score['p'] = 16;
-    alpha_score['q'] = 17; 
-    alpha_score['r'] = 18;
-    alpha_score['s'] = 19; 
-    alpha_score['t'] = 20;
-    alpha_score['u'] = 21; 
-    alpha_score['v'] = 22;
-    alpha_score['w'] = 23;
-    alpha_score['x'] = 24; 
-    alpha_score['y'] = 25;
-    alpha_score['z'] = 26; 
+/* Prints out alpha score map 
+ */
+void print_map(std::map<char,int> alpha_score) {
+    std::map<char, int>::iterator it = alpha_score.begin();
+   
+while (it != alpha_score.end()) {
+
+        char alpha = it->first; 
+        int score = it->second;
+        std::cout << alpha << ":: " << score << std::endl;
+     it++; 
+    
+    }
 }
+
 
 
