@@ -36,19 +36,27 @@ int main() {
     alpha_score['Z'] = 26; 
 
     // remove all the quotes in the original file
-    write_file_to_output1("sp22_infile.txt","sp22_outfile.txt");
+    write_file_to_output1("p22_infile.txt","p22_outfile.txt");
 
     // remove all the commas, replace them with spaces, and add every element into the 
-    write_file_to_output2("sp22_outfile.txt");  
+    write_file_to_output2("p22_outfile.txt");  
 
     // names are now ordered 
     sort_names(names_unordered);
 
-    //print_map(alpha_score);
+    // map with name sums
+    std::map<std::string, int> final_score; 
+    
+    // map with name sums time its position
+    std::map<std::string, int> final_score_2; 
 
-    parse_name_char(names_unordered, alpha_score);
+    // map with final scores 
+    std::map<std::string, int> name_sum_format = name_sums(names_unordered, alpha_score, final_score);
 
+    // map with final scores multiplied by its position
+    std::map<std::string, int> final_score_multiple = multiples_name(name_sum_format, final_score_2); 
    
+    int total_name_sum = total_sum(final_score_multiple);
 
     return 0;
 
