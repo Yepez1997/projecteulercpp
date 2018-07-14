@@ -4,7 +4,8 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/local/Cellar/gcc/7.3.0_1/include/c++/7.3.0/x86_64-apple-darwin15.6.0"
+                "/usr/local/Cellar/gcc/7.3.0_1/include/c++/7.3.0/x86_64-apple-darwin15.6.0",
+                "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/external/boringssl/src/include"
             ],
             "defines": [],
             "macFrameworkPath": [
